@@ -6,6 +6,7 @@ from langchain.agents import AgentType, initialize_agent, load_tools
 from langchain.tools import Tool
 from langchain.schema import SystemMessage
 from gnosis.search import Search
+from gnosis.experience import ExperienceCalculator
 
 def load_system_prompt() -> SystemMessage:
     """Load system prompt from a markdown file defined in SYSTEM_PROMPT_PATH,
@@ -32,6 +33,7 @@ class PDFExplainer:
     def __init__(self, llm, chroma_db, extra_tools=False):
         """Initialize the Agent"""
         search = Search(chroma_db)
+        experience = ExperienceCalculator(chroma_db)
 
         self.tools = [
             Tool.from_function(
@@ -40,7 +42,17 @@ class PDFExplainer:
                 description="Useful when you need more context for answering a question.",
                 handle_parsing_errors=True,
                 agent_kwargs={"system_message": load_system_prompt()},
-            )
+            ),
+            Tool.from_function(
+                func=experience.run,
+                name="Calculate_Experience_Years",
+                description=(
+                    "Use this tool to calculate how many years of professional experience "
+                    "a profile has. Input should be a name or query identifying the profile. "
+                    "Also use this when the user asks to filter profiles by years of experience."
+                ),
+                handle_parsing_errors=True,
+            ),
         ]
 
         if extra_tools:
