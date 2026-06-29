@@ -1,6 +1,6 @@
 #!/bin/bash
 python -c "from gnosis.persistence import pull; pull()"
-exec streamlit run GnosisPages.py \
+exec streamlit run app.py \
     --server.headless true \
     --server.enableCORS false \
     --server.enableXsrfProtection false \
