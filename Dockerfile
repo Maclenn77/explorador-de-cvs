@@ -2,7 +2,7 @@ FROM python:3.11.9-slim
 
 WORKDIR /app
 
-COPY ./wk_flow_requirements.txt /app/requirements.txt
+COPY ./requirements.txt /app/requirements.txt
 
 RUN apt-get update && apt-get install -y \
     build-essential \
