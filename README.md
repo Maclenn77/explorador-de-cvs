@@ -1,5 +1,5 @@
 ---
-title: GnosisPages
+title: Explorador de CVs
 emoji: 📚
 colorFrom: blue
 colorTo: green
@@ -8,11 +8,11 @@ app_port: 8501
 pinned: false
 ---
 
-# GnosisPages
+# Explorador de CVs
 
 GnosisPages is a RAG + LLM chatbot for querying private document collections. Upload PDF files, build a semantic knowledge base, and ask questions in natural language — no keyword matching required.
 
-**[▶ Try the live demo](https://huggingface.co/spaces/maclenn77/pdf-explainer)** · **[Watch a walkthrough](https://youtu.be/OEQTusJGHFQ)**
+**[▶ Try the live demo](https://huggingface.co/spaces/maclenn77/explorador-de-cvs)** · **[Watch a walkthrough](https://youtu.be/OEQTusJGHFQ)**
 
 ---
 
