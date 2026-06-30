@@ -4,8 +4,8 @@ import streamlit as st
 
 def header():
     """A header"""
-    st.title("GnosisPages")
-    st.subheader("Create your knowledge base")
+    st.title("Explorador de CVs")
+    st.subheader("Encuentra tu candidato ideal")
 
 
 def api_message(api_key):
@@ -13,4 +13,4 @@ def api_message(api_key):
     if api_key is None:
         return st.warning("Add your OpenAI API key")
 
-    return st.success("Your API key is setup ")
+    return st.success("¡Todo listo! Ya puedes empezar a explorar los CVs.")
