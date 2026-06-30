@@ -1,34 +1,24 @@
 # pylint: disable=invalid-name
-"""Instructions on how to use the website"""
+"""Instrucciones de uso del sitio web"""
 import streamlit as st
 
-# Title of the page
-st.title("How to use this website")
+st.title("Cómo usar esta aplicación")
 st.markdown(
-    "1. **Add your OpenAI API key**: You can get it from [here](https://beta.openai.com/).",
-    unsafe_allow_html=True,
+    "1. **Sube un archivo PDF o PNG**: Debe ser un archivo con texto. Las páginas escaneadas sin OCR no son compatibles."
 )
-st.image(image="pages/images/01_Add_API_Key.png", caption="Add your OpenAI API key")
+st.image(image="pages/images/02_Upload_PDF.png", caption="Subir un archivo PDF o PNG")
 st.markdown(
-    "2. **Upload a PDF file**: It should be a PDF file with text. Scanned pages are not supported."
+    "2. **Guardar fragmentos**: El texto se extrae, divide y guarda en fragmentos en ChromaDB."
 )
-st.image(image="pages/images/02_Upload_PDF.png", caption="Upload a PDF file")
+st.image(image="pages/images/03_Save_Chunks.png", caption="Guardar fragmentos")
 st.markdown(
-    "3. **Save chunks**: Text is extracted, splitted and save in chunks on ChromaDB."
+    "3. **Consulta tu base de conocimiento**: Usa el chatbot para hacer preguntas sobre los CVs cargados."
 )
-st.image(image="pages/images/03_Save_Chunks.png", caption="Save chunks")
+st.image(image="pages/images/04_Consult_KB.png", caption="Consulta tu base de conocimiento")
 st.markdown(
-    "4. **Consult your knowledge base**: You can consult your knowledge base with the chatbot."
+    '4. **Cambia el nivel de creatividad**: También llamado "temperatura". A mayor valor, resultados más inesperados.'
 )
-st.image(image="pages/images/04_Consult_KB.png", caption="Consult your knowledge base")
-st.markdown(
-    "5. **Use Wikipedia**: You can use Wikipedia to enrich your knowledge base."
-)
-st.image(image="pages/images/05_Use_Wikipedia.png", caption="Use Wikipedia")
-st.markdown(
-    '6. **Change creativity level**: Also called "temperature". As higher, more unexpected results.'
-)
-st.image(image="pages/images/06_Creativity.png", caption="Change creativity level")
-st.markdown("7. **Delete collection**: You can delete your collection and start over.")
-st.image(image="pages/images/07_Delete_Collection.png", caption="Delete collection")
-st.write("That's all! Enjoy!")
+st.image(image="pages/images/06_Creativity.png", caption="Cambiar nivel de creatividad")
+st.markdown("5. **Eliminar colección**: Puedes eliminar tu colección y comenzar de nuevo.")
+st.image(image="pages/images/07_Delete_Collection.png", caption="Eliminar colección")
+st.write("¡Eso es todo! ¡Disfrútalo!")
