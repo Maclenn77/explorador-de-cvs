@@ -10,9 +10,9 @@ pinned: false
 
 # Explorador de CVs
 
-GnosisPages es un chatbot RAG + LLM para consultar colecciones privadas de documentos. Carga archivos PDF, construye una base de conocimiento semántica y haz preguntas en lenguaje natural — sin necesidad de coincidencia de palabras clave.
+El explorador de Cvs es un chatbot RAG + LLM para consultar CVs de candidatos. Carga archivos PDF y PNG, construye una base de conocimiento semántica y haz preguntas en lenguaje natural — sin necesidad de coincidencia de palabras clave.
 
-**[▶ Probar la demo en vivo](https://huggingface.co/spaces/maclenn77/explorador-de-cvs)** · **[Ver un recorrido](https://youtu.be/OEQTusJGHFQ)**
+**[▶ Probar la demo en vivo](https://huggingface.co/spaces/maclenn77/explorador-de-cvs) 
 
 ---
 
