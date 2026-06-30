@@ -10,171 +10,171 @@ pinned: false
 
 # Explorador de CVs
 
-GnosisPages is a RAG + LLM chatbot for querying private document collections. Upload PDF files, build a semantic knowledge base, and ask questions in natural language — no keyword matching required.
+GnosisPages es un chatbot RAG + LLM para consultar colecciones privadas de documentos. Carga archivos PDF, construye una base de conocimiento semántica y haz preguntas en lenguaje natural — sin necesidad de coincidencia de palabras clave.
 
-**[▶ Try the live demo](https://huggingface.co/spaces/maclenn77/explorador-de-cvs)** · **[Watch a walkthrough](https://youtu.be/OEQTusJGHFQ)**
-
----
-
-## Use Case: CV Discovery for Recruiters
-
-Managing large volumes of CVs is difficult. Recruiters often don't know the exact technologies or skill names to search for, and keyword-based search misses semantically equivalent terms (e.g. "machine learning" vs "aprendizaje automático", or experience in a framework analogous to the one required).
-
-GnosisPages solves this with semantic retrieval: a recruiter can ask "Who has experience with distributed systems and has worked in startups?" and the system finds relevant profiles even when the exact phrasing doesn't match.
-
-Candidate data is sensitive (contact details, personal history). GnosisPages keeps it private by design: documents live in a local or private vector database, and the LLM never trains on them — it only reads the retrieved context at inference time.
-
-The demo ships with a pre-loaded collection of synthetic CVs generated with Claude Sonnet 4.6 and vectorized with OpenAI's `text-embedding-3-small`.
+**[▶ Probar la demo en vivo](https://huggingface.co/spaces/maclenn77/explorador-de-cvs)** · **[Ver un recorrido](https://youtu.be/OEQTusJGHFQ)**
 
 ---
 
-## Data flow
+## Caso de uso: Descubrimiento de CVs para Reclutadores
+
+Gestionar grandes volúmenes de CVs es difícil. Los reclutadores a menudo no conocen los nombres exactos de tecnologías o habilidades que buscar, y la búsqueda por palabras clave omite términos semánticamente equivalentes (por ejemplo, "machine learning" vs "aprendizaje automático", o experiencia en un framework análogo al requerido).
+
+GnosisPages resuelve esto con recuperación semántica: un reclutador puede preguntar "¿Quién tiene experiencia con sistemas distribuidos y ha trabajado en startups?" y el sistema encuentra perfiles relevantes aunque la redacción exacta no coincida.
+
+Los datos de los candidatos son sensibles (datos de contacto, historial personal). GnosisPages los mantiene privados por diseño: los documentos viven en una base de datos vectorial local o privada, y el LLM nunca se entrena con ellos — solo lee el contexto recuperado en el momento de inferencia.
+
+La demo incluye una colección precargada de CVs sintéticos generados con Claude Sonnet 4.6 y vectorizados con `text-embedding-3-small` de OpenAI.
+
+---
+
+## Flujo de datos
 
 ```
-PDF documents
+Documentos PDF
       │
       ▼
-  Text extraction (PyMuPDF)
+  Extracción de texto (PyMuPDF)
       │
       ▼
-  Chunking (LangChain TextSplitter)
+  Segmentación (LangChain TextSplitter)
       │
       ▼
-  Embedding (text-embedding-3-small · OpenAI)
+  Embeddings (text-embedding-3-small · OpenAI)
       │
       ▼
-  Vector storage (ChromaDB)
+  Almacenamiento vectorial (ChromaDB)
       │
       ▼
-  User query (natural language)
+  Consulta del usuario (lenguaje natural)
       │
-      ├─► Embed query ──► Semantic search (ChromaDB cosine similarity)
-      │                         │
-      │                   Top-k chunks
-      │                         │
-      └─────────────────► Prompt construction
-                                │
-                          GPT-4o-Mini (LangChain)
-                                │
-                          Answer → Streamlit UI
+      ├─► Embeber consulta ──► Búsqueda semántica (similitud coseno ChromaDB)
+      │                               │
+      │                         Top-k fragmentos
+      │                               │
+      └─────────────────► Construcción del prompt
+                                      │
+                                GPT-4o-Mini (LangChain)
+                                      │
+                              Respuesta → Interfaz Streamlit
 ```
 
 
-## Architecture
+## Arquitectura
 
 <img width="2000" height="1292" alt="image" src="https://github.com/user-attachments/assets/17f5f557-0334-47b7-9f62-a7f27f5522c7" />
 
-### Components
+### Componentes
 
-| Layer | Technology | Role |
+| Capa | Tecnología | Rol |
 |---|---|---|
-| UI | Streamlit 1.58 | Web interface and file upload |
-| Orchestration | LangChain 0.3 | RAG chain, prompt management |
-| Vector store | ChromaDB 1.5 | Semantic storage and retrieval |
-| Embeddings | `text-embedding-3-small` (OpenAI) | Document and query vectorization |
-| LLM | GPT-4o-Mini (OpenAI) | Answer generation |
-| PDF parsing | PyMuPDF 1.24 | Text extraction from PDF files |
+| UI | Streamlit 1.58 | Interfaz web y carga de archivos |
+| Orquestación | LangChain 0.3 | Cadena RAG, gestión de prompts |
+| Base vectorial | ChromaDB 1.5 | Almacenamiento y recuperación semántica |
+| Embeddings | `text-embedding-3-small` (OpenAI) | Vectorización de documentos y consultas |
+| LLM | GPT-4o-Mini (OpenAI) | Generación de respuestas |
+| Parseo de PDF | PyMuPDF 1.24 | Extracción de texto de archivos PDF |
 
-`text-embedding-3-small` replaces ChromaDB's default (`all-MiniLM-L6-v2`) for better semantic quality, especially across mixed-language content.
+`text-embedding-3-small` reemplaza el modelo por defecto de ChromaDB (`all-MiniLM-L6-v2`) para mejor calidad semántica, especialmente con contenido en varios idiomas.
 
-### Why GPT-4o-Mini
+### Por qué GPT-4o-Mini
 
-- Fast response times for conversational QA over retrieved context
-- Lower cost per token than GPT-4o or GPT-4 Turbo
-- Native LangChain integration
-- Stable OpenAI API with no additional infrastructure
+- Tiempos de respuesta rápidos para QA conversacional sobre contexto recuperado
+- Menor costo por token que GPT-4o o GPT-4 Turbo
+- Integración nativa con LangChain
+- API estable de OpenAI sin infraestructura adicional
 
-### Why RAG
+### Por qué RAG
 
-The knowledge base is private, dynamic, and cannot be baked into model weights. RAG provides on-demand access to documents the LLM was never trained on, without exposing them to external services beyond the query moment.
-
----
-
-## Features
-
-- **Upload PDFs** up to 200 MB (programmatically created or OCR-processed)
-- **Semantic search** across your document collection — finds relevant content even without exact keyword matches
-- **Conversational interface** — ask follow-up questions in the same session
-- **Pre-loaded dataset** — the demo includes synthetic CVs so you can try it immediately without uploading anything
-- **Private by design** — documents stay in your vector store; the LLM only sees retrieved chunks
+La base de conocimiento es privada, dinámica y no puede incorporarse a los pesos del modelo. RAG proporciona acceso bajo demanda a documentos con los que el LLM nunca fue entrenado, sin exponerlos a servicios externos más allá del momento de la consulta.
 
 ---
 
-## Demo Usage
+## Funcionalidades
 
-The live demo on HuggingFace requires only an OpenAI API Key.
+- **Carga de PDFs** de hasta 200 MB (creados programáticamente o procesados con OCR)
+- **Búsqueda semántica** en tu colección de documentos — encuentra contenido relevante sin necesidad de coincidencias exactas de palabras clave
+- **Interfaz conversacional** — haz preguntas de seguimiento en la misma sesión
+- **Dataset precargado** — la demo incluye CVs sintéticos para que puedas probarlo de inmediato sin subir nada
+- **Privado por diseño** — los documentos permanecen en tu base vectorial; el LLM solo ve los fragmentos recuperados
 
-**Example questions to try with the pre-loaded CV dataset:**
+---
+
+## Uso de la Demo
+
+La demo en vivo en HuggingFace solo requiere una clave de API de OpenAI.
+
+**Ejemplos de preguntas para probar con el dataset de CVs precargado:**
 
 ```
-Who has experience with Python and machine learning?
-Find candidates who have worked in startups or early-stage companies.
-Who has the most experience in technical leadership roles?
-Is there anyone with a background in both data engineering and backend development?
-Which candidates mention experience with cloud infrastructure?
+¿Quién tiene experiencia con Python y machine learning?
+Encuentra candidatos que hayan trabajado en startups o empresas en etapas tempranas.
+¿Quién tiene más experiencia en roles de liderazgo técnico?
+¿Hay alguien con experiencia tanto en ingeniería de datos como en desarrollo backend?
+¿Qué candidatos mencionan experiencia con infraestructura en la nube?
 ```
 
 ---
 
-## Local Setup
+## Configuración Local
 
-**Requirements:** Python 3.11, OpenAI API Key
+**Requisitos:** Python 3.11, clave de API de OpenAI
 
 ```bash
-# 1. Clone
+# 1. Clonar
 git clone https://github.com/maclenn77/pdf-explainer.git
 cd pdf-explainer
 
-# 2. Create environment file
+# 2. Crear archivo de entorno
 touch .env
 ```
 
-Add your key to `.env`:
+Agrega tu clave al archivo `.env`:
 
 ```
-OPENAI_API_KEY=your_key_here
+OPENAI_API_KEY=tu_clave_aqui
 ```
 
 ```bash
-# 3. Install dependencies
+# 3. Instalar dependencias
 pip install -r requirements.txt
 
-# 4. Run
+# 4. Ejecutar
 streamlit run GnosisPages.py
 ```
 
 ---
 
-## Deployment
+## Despliegue
 
-The repo includes three GitHub Actions workflows that run on every PR and deploy automatically on merge to `main`:
+El repositorio incluye tres flujos de trabajo de GitHub Actions que se ejecutan en cada PR y despliegan automáticamente al hacer merge a `main`:
 
-| Workflow | What it does |
+| Flujo de trabajo | Qué hace |
 |---|---|
-| Check file size | Blocks merges with files above HuggingFace's size limit |
-| Check lints | Runs `pylint` on the codebase |
-| Deploy to HuggingFace | Pushes the latest `main` to the HuggingFace Space |
+| Check file size | Bloquea merges con archivos que superen el límite de tamaño de HuggingFace |
+| Check lints | Ejecuta `pylint` en el código fuente |
+| Deploy to HuggingFace | Sube el último `main` al Space de HuggingFace |
 
-To deploy your own fork, add these secrets in your repository settings:
+Para desplegar tu propio fork, agrega estos secretos en la configuración de tu repositorio:
 
-- `HF_TOKEN` — your HuggingFace access token
-- `HF_USERNAME` — your HuggingFace username
+- `HF_TOKEN` — tu token de acceso a HuggingFace
+- `HF_USERNAME` — tu nombre de usuario en HuggingFace
 
 ---
 
-## Project Structure
+## Estructura del Proyecto
 
 ```
 pdf-explainer/
-├── GnosisPages.py          # App entry point
+├── GnosisPages.py          # Punto de entrada de la app
 ├── gnosis/
-│   ├── chroma_client.py    # ChromaDB wrapper
-│   ├── settings.py         # Collection bootstrap (loads pre-built DB)
-│   ├── gui_messages.py     # UI copy
+│   ├── chroma_client.py    # Wrapper de ChromaDB
+│   ├── settings.py         # Bootstrap de la colección (carga la BD preconstruida)
+│   ├── gui_messages.py     # Textos de la UI
 │   └── components/
-│       ├── sidebar.py      # File upload and DB controls
-│       └── main.py         # Chat interface and RAG chain
-├── pages/                  # Additional Streamlit pages
+│       ├── sidebar.py      # Carga de archivos y controles de BD
+│       └── main.py         # Interfaz de chat y cadena RAG
+├── pages/                  # Páginas adicionales de Streamlit
 ├── requirements.txt
 ├── Dockerfile
 └── .github/workflows/      # CI/CD
@@ -182,6 +182,6 @@ pdf-explainer/
 
 ---
 
-## License
+## Licencia
 
-MIT — see [LICENSE](LICENSE) for details.
+MIT — ver [LICENSE](LICENSE) para más detalles.
