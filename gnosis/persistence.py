@@ -20,15 +20,17 @@ def _make_writable(path):
 def pull():
     """Download persisted ChromaDB from HF Dataset on startup."""
     if not REPO_ID:
+        print("[persistence] HF_DATASET_REPO not set, skipping pull.")
         return
     try:
         snapshot_download(
             repo_id=REPO_ID,
             repo_type="dataset",
             local_dir=LOCAL_PATH,
-            local_dir_use_symlinks=False,
             token=os.getenv("HF_DATASET_TOKEN"),
         )
         _make_writable(LOCAL_PATH)
-    except (HfHubHTTPError, RepositoryNotFoundError):
+        print(f"[persistence] ChromaDB descargada de {REPO_ID} en {LOCAL_PATH}")
+    except Exception as e:
+        print(f"[persistence] Error al descargar dataset: {e}")
         os.makedirs(LOCAL_PATH, exist_ok=True)
