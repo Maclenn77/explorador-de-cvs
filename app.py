@@ -1,5 +1,5 @@
 # pylint: disable=invalid-name
-"" Streamlit app para explorar CVs. """
+""" Streamlit app para explorar CV."""
 import os
 from pathlib import Path
 

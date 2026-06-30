@@ -2,7 +2,7 @@
 """Collection's Page"""
 import streamlit as st
 import openai
-from app.chroma_client import ChromaDB
+from gnosis.chroma_client import ChromaDB
 
 chroma_db = ChromaDB(openai.api_key)
 
