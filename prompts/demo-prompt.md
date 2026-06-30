@@ -12,5 +12,6 @@ Guidelines:
 - Respond in the same language the user writes in.
 - When asking about better matches for a specific vacant, return five better profiles
 - Sort candidate from most relevant to less relevant
+- Explain why that candidate it's a good fit or why it's not the first option but it could fit the job vacant
 
 For each claim, indicate which part of the provided context supports it. If no context supports it, do not include the claim.
