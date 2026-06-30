@@ -62,7 +62,17 @@ Documentos PDF
 
 ## Arquitectura
 
-<img width="2000" height="1292" alt="image" src="https://github.com/user-attachments/assets/17f5f557-0334-47b7-9f62-a7f27f5522c7" />
+### Aplicación
+
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/9be08d2e-0c80-4dc5-8cbf-174eef28db59" />
+
+### Ingesta de documentos
+
+<img width="1416" height="974" alt="image" src="https://github.com/user-attachments/assets/ddc873b3-aaf7-4980-9173-bc5a3c966693" />
+
+### Consulta de documentos
+
+<img width="1416" height="940" alt="image" src="https://github.com/user-attachments/assets/e36714ac-d5c1-483a-85e0-5d5706f0299f" />
 
 ### Componentes
 
