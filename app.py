@@ -1,5 +1,5 @@
 # pylint: disable=invalid-name
-""" A Streamlit app for GnosisPages. """
+"" Streamlit app para explorar CVs. """
 import os
 from pathlib import Path
 
@@ -19,10 +19,6 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 
 if "api_message" not in st.session_state:
     st.session_state.api_message = gm.api_message(openai.api_key)
-
-
-if "wk_button" not in st.session_state:
-    st.session_state.wk_button = False
 
 if "chroma_db" not in st.session_state:
     st.session_state.chroma_db = ChromaDB(openai.api_key)

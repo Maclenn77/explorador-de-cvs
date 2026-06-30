@@ -25,15 +25,15 @@ def _save_chunks(collection, text, filename):
 def uploader(collection):
     """Component for upload files"""
     st.write(
-        "Upload, extract and consult the content of PDF or PNG files for building your knowledge base!"
+        "¡Sube, extrae y consulta el contenido de archivos PDF o PNG para construir tu base de conocimiento!"
     )
-    uploaded_file = st.file_uploader("Upload a file", type=["pdf", "png"])
+    uploaded_file = st.file_uploader("Subir archivo", type=["pdf", "png"])
 
     if uploaded_file is not None:
         filename = uploaded_file.name
         is_image = filename.lower().endswith(".png")
 
-        with st.spinner("Extracting text..."):
+        with st.spinner("Extrayendo texto..."):
             if is_image:
                 text = extract_text_from_image(uploaded_file)
             else:
@@ -41,16 +41,16 @@ def uploader(collection):
                     text = chr(12).join([page.get_text() for page in doc])
 
         if not text.strip():
-            st.warning("No text could be extracted from this file.")
+            st.warning("No se pudo extraer texto de este archivo.")
             return
 
-        st.subheader("Text preview")
+        st.subheader("Vista previa del texto")
         st.write(text[0:300] + "...")
-        if st.button("Save chunks"):
-            with st.spinner("Saving chunks..."):
+        if st.button("Guardar fragmentos"):
+            with st.spinner("Guardando fragmentos..."):
                 _save_chunks(collection, text, filename)
     else:
-        st.write("Please upload a file of type: pdf or png")
+        st.write("Por favor sube un archivo de tipo: PDF o PNG")
 
 
 def main(key, client, collection):
@@ -59,7 +59,7 @@ def main(key, client, collection):
 
     uploader(collection)
 
-    st.subheader("Consult your knowledge base")
+    st.subheader("Consulta tu base de conocimiento")
 
     prompt = st.chat_input()
 

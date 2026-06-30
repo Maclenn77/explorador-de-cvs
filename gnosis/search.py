@@ -21,7 +21,7 @@ class Search:
         if collection.count() == 0:
             return "No documents found. Please upload a PDF first."
 
-        results = collection.query(query_texts=[query], n_results=5)["documents"][0]
+        results = collection.query(query_texts=[query], n_results=7)["documents"][0]
         return "\n\n---\n\n".join(results)
 
     def collection_name(self):

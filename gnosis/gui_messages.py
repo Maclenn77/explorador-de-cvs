@@ -11,6 +11,6 @@ def header():
 def api_message(api_key):
     """Inform if the api key is set."""
     if api_key is None:
-        return st.warning("Add your OpenAI API key")
+        return st.warning("Agrega tu clave de OpenAI API")
 
     return st.success("¡Todo listo! Ya puedes empezar a explorar los CVs.")

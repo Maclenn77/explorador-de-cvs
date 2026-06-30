@@ -9,7 +9,6 @@ from gnosis.agent import PDFExplainer
 
 def build(key, client):
     """An Agent builder"""
-    # Build Agent
     try:
         key = os.environ.get("OPENAI_API_KEY") or key
         llm = ChatOpenAI(
@@ -20,15 +19,15 @@ def build(key, client):
         agent = PDFExplainer(
             llm,
             client,
-            extra_tools=st.session_state.wk_button,
+            extra_tools=False,
         ).agent
     except AuthenticationError:
-        st.warning("Invalid OpenAI API Key. Check your credentials.")
+        st.warning("Clave de OpenAI API inválida. Verifica tus credenciales.")
     except APIConnectionError:
-        st.warning("Could not connect to OpenAI. Check your network connection.")
+        st.warning("No se pudo conectar a OpenAI. Verifica tu conexión de red.")
     except BadRequestError as e:
-        st.warning(f"Bad request: {e}")
+        st.warning(f"Solicitud incorrecta: {e}")
     except ValueError as e:
-        st.warning(f"Configuration error: {e}")
+        st.warning(f"Error de configuración: {e}")
 
     return agent
