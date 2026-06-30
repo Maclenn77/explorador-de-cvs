@@ -6,7 +6,7 @@ from gnosis.chroma_client import ChromaDB
 
 chroma_db = ChromaDB(openai.api_key)
 
-st.header("About")
+st.header("Sobre este proyecto")
 
 # A summary of the project
 st.write(
